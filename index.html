@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search</title>
+</head>
+
+<body>
+    <h1> Movie Search App</h1>
+
+    <input type="text" id="movieInput" placeholder="Enter movie name">
+    <button onclick="handleSubmit()" id="searchBtn">Search</button>
+
+    <div>
+        <h4 id="result1"></h4>
+        <h4 id="result2"></h4>
+        <h4 id="result3"></h4>
+
+    </div>
+    <div id="img">
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const apiKey = "24b073de";
+
+        const inputValue = document.querySelector("#movieInput")
+        const myResult = document.querySelector("#result1").innerText
+        console.log(myResult)
+        const handleSubmit = () => {
+            console.log("Movie name = ", inputValue.value)
+
+
+
+            axios.get(`https://www.omdbapi.com/?t=${inputValue.value}&apikey=${apiKey}`)
+            
+                .then(function (response) {
+                    // handle success
+                    // console.log("Title: ",response.data.Title)
+                    // console.log("Genre: ",response.data.Genre)
+                    // console.log("Rating: ",response.data.imdbRating)
+                    console.log(response.data)
+                    document.getElementById('result1').innerText = `Title: ${response.data.Title}`
+                    document.getElementById('result2').innerText = `Genre: ${response.data.Genre}`
+                    document.getElementById('result3').innerText = `IMDB Rating: ${response.data.imdbRating}`
+                    document.getElementById('img').innerHTML = `<img src="${response.data.Poster}" alt="${response.data.Title} Poster" width="200">`
+
+                })
+                .catch(function (error) {
+                    // handle error
+
+
+                })
+
+        }
+
+        handleSubmit()
+
+
+    </script>
+</body>
+
+</html>
